@@ -1,0 +1,117 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>Marvel Cinematic Universe Tv-series Overview With Main Characters</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 90%;
+            height: 750px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"Phase": "character", "color": "skyblue", "id": "Nick Fury", "label": "Nick Fury", "shape": "dot", "size": 10, "title": "Nick Fury Neighbors:\u003cbr\u003eWandaVision\u003cbr\u003eLoki (TV series)\u003cbr\u003eAgents of S.H.I.E.L.D.\u003cbr\u003eSecret Invasion (TV series)", "value": 4}, {"color": "lightgreen", "id": "Agents of S.H.I.E.L.D.", "label": "Agents of S.H.I.E.L.D.", "shape": "box", "size": 12, "title": "Agents of S.H.I.E.L.D. Neighbors:\u003cbr\u003eHawkeye\u003cbr\u003eLoki\u003cbr\u003eWinter Soldier\u003cbr\u003ePeggy Carter\u003cbr\u003eNick Fury\u003cbr\u003eScarlet Witch\u003cbr\u003ePhil Coulson", "value": 7}, {"color": "magenta", "id": "WandaVision", "label": "WandaVision", "shape": "box", "size": 12, "title": "WandaVision Neighbors:\u003cbr\u003eScarlet Witch\u003cbr\u003eNick Fury\u003cbr\u003eVision", "value": 3}, {"color": "magenta", "id": "Loki (TV series)", "label": "Loki (TV series)", "shape": "box", "size": 12, "title": "Loki (TV series) Neighbors:\u003cbr\u003eHawkeye\u003cbr\u003eLoki\u003cbr\u003eWinter Soldier\u003cbr\u003eNick Fury\u003cbr\u003eVision\u003cbr\u003ePhil Coulson", "value": 6}, {"color": "lightgreen", "id": "Secret Invasion (TV series)", "label": "Secret Invasion (TV series)", "shape": "box", "size": 12, "title": "Secret Invasion (TV series) Neighbors:\u003cbr\u003eNick Fury", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Iron Fist", "label": "Iron Fist", "shape": "dot", "size": 10, "title": "Iron Fist Neighbors:\u003cbr\u003eCloak \u0026 Dagger\u003cbr\u003eThe Defenders\u003cbr\u003eJessica Jones (TV series)\u003cbr\u003eIron Fist (TV series)\u003cbr\u003eLuke Cage (TV series)", "value": 5}, {"color": "lightgreen", "id": "Jessica Jones (TV series)", "label": "Jessica Jones (TV series)", "shape": "box", "size": 12, "title": "Jessica Jones (TV series) Neighbors:\u003cbr\u003eJessica Jones\u003cbr\u003eIron Fist\u003cbr\u003eDaredevil\u003cbr\u003eLuke Cage", "value": 4}, {"color": "lightgreen", "id": "Luke Cage (TV series)", "label": "Luke Cage (TV series)", "shape": "box", "size": 12, "title": "Luke Cage (TV series) Neighbors:\u003cbr\u003ePunisher\u003cbr\u003eLuke Cage\u003cbr\u003eIron Fist\u003cbr\u003eDaredevil\u003cbr\u003eJessica Jones", "value": 5}, {"color": "lightgreen", "id": "Iron Fist (TV series)", "label": "Iron Fist (TV series)", "shape": "box", "size": 12, "title": "Iron Fist (TV series) Neighbors:\u003cbr\u003eJessica Jones\u003cbr\u003eIron Fist\u003cbr\u003eDaredevil\u003cbr\u003eLuke Cage", "value": 4}, {"color": "lightgreen", "id": "The Defenders", "label": "The Defenders", "shape": "box", "size": 12, "title": "The Defenders Neighbors:\u003cbr\u003eJessica Jones\u003cbr\u003eIron Fist\u003cbr\u003eDaredevil\u003cbr\u003eLuke Cage", "value": 4}, {"color": "lightgreen", "id": "Cloak \u0026 Dagger", "label": "Cloak \u0026 Dagger", "shape": "box", "size": 12, "title": "Cloak \u0026 Dagger Neighbors:\u003cbr\u003eLuke Cage\u003cbr\u003eIron Fist", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Jessica Jones", "label": "Jessica Jones", "shape": "dot", "size": 10, "title": "Jessica Jones Neighbors:\u003cbr\u003eDaredevil (TV series)\u003cbr\u003eThe Defenders\u003cbr\u003eJessica Jones (TV series)\u003cbr\u003eIron Fist (TV series)\u003cbr\u003eLuke Cage (TV series)", "value": 5}, {"color": "lightgreen", "id": "Daredevil (TV series)", "label": "Daredevil (TV series)", "shape": "box", "size": 12, "title": "Daredevil (TV series) Neighbors:\u003cbr\u003eJessica Jones\u003cbr\u003eLuke Cage\u003cbr\u003eDaredevil\u003cbr\u003ePunisher", "value": 4}, {"Phase": "character", "color": "skyblue", "id": "Phil Coulson", "label": "Phil Coulson", "shape": "dot", "size": 10, "title": "Phil Coulson Neighbors:\u003cbr\u003eLoki (TV series)\u003cbr\u003eAgents of S.H.I.E.L.D.", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Peggy Carter", "label": "Peggy Carter", "shape": "dot", "size": 10, "title": "Peggy Carter Neighbors:\u003cbr\u003eAgent Carter (TV series)\u003cbr\u003eThe Falcon and The Winter Soldier\u003cbr\u003eAgents of S.H.I.E.L.D.", "value": 3}, {"color": "magenta", "id": "Agent Carter (TV series)", "label": "Agent Carter (TV series)", "shape": "box", "size": 12, "title": "Agent Carter (TV series) Neighbors:\u003cbr\u003ePeggy Carter", "value": 1}, {"color": "magenta", "id": "The Falcon and The Winter Soldier", "label": "The Falcon and The Winter Soldier", "shape": "box", "size": 12, "title": "The Falcon and The Winter Soldier Neighbors:\u003cbr\u003eScarlet Witch\u003cbr\u003ePeggy Carter\u003cbr\u003eWinter Soldier", "value": 3}, {"Phase": "character", "color": "skyblue", "id": "Thena", "label": "Thena", "shape": "dot", "size": 10, "title": "Thena Neighbors:\u003cbr\u003eHelstrom (TV series)", "value": 1}, {"color": "lightgreen", "id": "Helstrom (TV series)", "label": "Helstrom (TV series)", "shape": "box", "size": 12, "title": "Helstrom (TV series) Neighbors:\u003cbr\u003eThena", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Spider-Man", "label": "Spider-Man", "shape": "dot", "size": 10, "title": "Spider-Man Neighbors:\u003cbr\u003eRunaways (TV series)\u003cbr\u003eSpider-Man: Freshman Year", "value": 2}, {"color": "lightgreen", "id": "Runaways (TV series)", "label": "Runaways (TV series)", "shape": "box", "size": 12, "title": "Runaways (TV series) Neighbors:\u003cbr\u003eSpider-Man", "value": 1}, {"color": "magenta", "id": "Spider-Man: Freshman Year", "label": "Spider-Man: Freshman Year", "shape": "box", "size": 12, "title": "Spider-Man: Freshman Year Neighbors:\u003cbr\u003eSpider-Man", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Punisher", "label": "Punisher", "shape": "dot", "size": 10, "title": "Punisher Neighbors:\u003cbr\u003eThe Punisher\u003cbr\u003eLuke Cage (TV series)\u003cbr\u003eDaredevil (TV series)", "value": 3}, {"color": "lightgreen", "id": "The Punisher", "label": "The Punisher", "shape": "box", "size": 12, "title": "The Punisher Neighbors:\u003cbr\u003eDaredevil\u003cbr\u003ePunisher", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Daredevil", "label": "Daredevil", "shape": "dot", "size": 10, "title": "Daredevil Neighbors:\u003cbr\u003eDaredevil (TV series)\u003cbr\u003eThe Defenders\u003cbr\u003eJessica Jones (TV series)\u003cbr\u003eIron Fist (TV series)\u003cbr\u003eThe Punisher\u003cbr\u003eLuke Cage (TV series)", "value": 6}, {"Phase": "character", "color": "skyblue", "id": "Luke Cage", "label": "Luke Cage", "shape": "dot", "size": 10, "title": "Luke Cage Neighbors:\u003cbr\u003eCloak \u0026 Dagger\u003cbr\u003eDaredevil (TV series)\u003cbr\u003eThe Defenders\u003cbr\u003eJessica Jones (TV series)\u003cbr\u003eIron Fist (TV series)\u003cbr\u003eLuke Cage (TV series)", "value": 6}, {"Phase": "character", "color": "skyblue", "id": "Loki", "label": "Loki", "shape": "dot", "size": 10, "title": "Loki Neighbors:\u003cbr\u003eLoki (TV series)\u003cbr\u003eHawkeye (TV series)\u003cbr\u003eWhat If...?\u003cbr\u003eAgents of S.H.I.E.L.D.", "value": 4}, {"color": "magenta", "id": "What If...?", "label": "What If...?", "shape": "box", "size": 12, "title": "What If...? Neighbors:\u003cbr\u003eHawkeye\u003cbr\u003eLoki\u003cbr\u003eVision", "value": 3}, {"color": "magenta", "id": "Hawkeye (TV series)", "label": "Hawkeye (TV series)", "shape": "box", "size": 12, "title": "Hawkeye (TV series) Neighbors:\u003cbr\u003eHawkeye\u003cbr\u003eLoki", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Hawkeye", "label": "Hawkeye", "shape": "dot", "size": 10, "title": "Hawkeye Neighbors:\u003cbr\u003eLoki (TV series)\u003cbr\u003eWhat If...?\u003cbr\u003eHawkeye (TV series)\u003cbr\u003eAgents of S.H.I.E.L.D.", "value": 4}, {"Phase": "character", "color": "skyblue", "id": "Scarlet Witch", "label": "Scarlet Witch", "shape": "dot", "size": 10, "title": "Scarlet Witch Neighbors:\u003cbr\u003eWandaVision\u003cbr\u003eThe Falcon and The Winter Soldier\u003cbr\u003eAgents of S.H.I.E.L.D.", "value": 3}, {"Phase": "character", "color": "skyblue", "id": "Vision", "label": "Vision", "shape": "dot", "size": 10, "title": "Vision Neighbors:\u003cbr\u003eWandaVision\u003cbr\u003eLoki (TV series)\u003cbr\u003eWhat If...?", "value": 3}, {"Phase": "character", "color": "skyblue", "id": "Winter Soldier", "label": "Winter Soldier", "shape": "dot", "size": 10, "title": "Winter Soldier Neighbors:\u003cbr\u003eThe Falcon and The Winter Soldier\u003cbr\u003eLoki (TV series)\u003cbr\u003eAgents of S.H.I.E.L.D.\u003cbr\u003eMs. Marvel (TV series)", "value": 4}, {"color": "lightgreen", "id": "Ms. Marvel (TV series)", "label": "Ms. Marvel (TV series)", "shape": "box", "size": 12, "title": "Ms. Marvel (TV series) Neighbors:\u003cbr\u003eWinter Soldier", "value": 1}]);
+        edges = new vis.DataSet([{"from": "Nick Fury", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Nick Fury", "to": "WandaVision", "weight": 1}, {"from": "Nick Fury", "to": "Loki (TV series)", "weight": 1}, {"from": "Nick Fury", "to": "Secret Invasion (TV series)", "weight": 1}, {"from": "Iron Fist", "to": "Jessica Jones (TV series)", "weight": 1}, {"from": "Iron Fist", "to": "Luke Cage (TV series)", "weight": 1}, {"from": "Iron Fist", "to": "Iron Fist (TV series)", "weight": 1}, {"from": "Iron Fist", "to": "The Defenders", "weight": 1}, {"from": "Iron Fist", "to": "Cloak \u0026 Dagger", "weight": 1}, {"from": "Jessica Jones", "to": "Daredevil (TV series)", "weight": 1}, {"from": "Jessica Jones", "to": "Jessica Jones (TV series)", "weight": 1}, {"from": "Jessica Jones", "to": "Luke Cage (TV series)", "weight": 1}, {"from": "Jessica Jones", "to": "Iron Fist (TV series)", "weight": 1}, {"from": "Jessica Jones", "to": "The Defenders", "weight": 1}, {"from": "Phil Coulson", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Phil Coulson", "to": "Loki (TV series)", "weight": 1}, {"from": "Peggy Carter", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Peggy Carter", "to": "Agent Carter (TV series)", "weight": 1}, {"from": "Peggy Carter", "to": "The Falcon and The Winter Soldier", "weight": 1}, {"from": "Thena", "to": "Helstrom (TV series)", "weight": 1}, {"from": "Spider-Man", "to": "Runaways (TV series)", "weight": 1}, {"from": "Spider-Man", "to": "Spider-Man: Freshman Year", "weight": 1}, {"from": "Punisher", "to": "Daredevil (TV series)", "weight": 1}, {"from": "Punisher", "to": "Luke Cage (TV series)", "weight": 1}, {"from": "Punisher", "to": "The Punisher", "weight": 1}, {"from": "Daredevil", "to": "Daredevil (TV series)", "weight": 1}, {"from": "Daredevil", "to": "Jessica Jones (TV series)", "weight": 1}, {"from": "Daredevil", "to": "Luke Cage (TV series)", "weight": 1}, {"from": "Daredevil", "to": "Iron Fist (TV series)", "weight": 1}, {"from": "Daredevil", "to": "The Defenders", "weight": 1}, {"from": "Daredevil", "to": "The Punisher", "weight": 1}, {"from": "Luke Cage", "to": "Daredevil (TV series)", "weight": 1}, {"from": "Luke Cage", "to": "Jessica Jones (TV series)", "weight": 1}, {"from": "Luke Cage", "to": "Luke Cage (TV series)", "weight": 1}, {"from": "Luke Cage", "to": "Iron Fist (TV series)", "weight": 1}, {"from": "Luke Cage", "to": "The Defenders", "weight": 1}, {"from": "Luke Cage", "to": "Cloak \u0026 Dagger", "weight": 1}, {"from": "Loki", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Loki", "to": "Loki (TV series)", "weight": 1}, {"from": "Loki", "to": "What If...?", "weight": 1}, {"from": "Loki", "to": "Hawkeye (TV series)", "weight": 1}, {"from": "Hawkeye", "to": "Hawkeye (TV series)", "weight": 1}, {"from": "Hawkeye", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Hawkeye", "to": "Loki (TV series)", "weight": 1}, {"from": "Hawkeye", "to": "What If...?", "weight": 1}, {"from": "Scarlet Witch", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Scarlet Witch", "to": "WandaVision", "weight": 1}, {"from": "Scarlet Witch", "to": "The Falcon and The Winter Soldier", "weight": 1}, {"from": "Vision", "to": "WandaVision", "weight": 1}, {"from": "Vision", "to": "Loki (TV series)", "weight": 1}, {"from": "Vision", "to": "What If...?", "weight": 1}, {"from": "Winter Soldier", "to": "Agents of S.H.I.E.L.D.", "weight": 1}, {"from": "Winter Soldier", "to": "The Falcon and The Winter Soldier", "weight": 1}, {"from": "Winter Soldier", "to": "Loki (TV series)", "weight": 1}, {"from": "Winter Soldier", "to": "Ms. Marvel (TV series)", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 1,
+            "gravitationalConstant": -50,
+            "springConstant": 0.02,
+            "springLength": 50
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

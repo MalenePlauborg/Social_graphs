@@ -1,0 +1,117 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>Teams With Shared Characters</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 90%;
+            height: 750px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"Name": "Asgardian Royal Family", "color": "#C2B77C", "id": "Asgardian Royal Family", "label": "Asgardian Royal Family", "shape": "diamond", "size": 6, "title": "Team: Asgardian Royal Family\u003c/br\u003eNo. of shared characters: 6"}, {"Name": "Avengers", "color": "#247D19", "id": "Avengers", "label": "Avengers", "shape": "diamond", "size": 10, "title": "Team: Avengers\u003c/br\u003eNo. of shared characters: 10"}, {"Name": "Guardians of the Galaxy", "color": "#0ACC71", "id": "Guardians of the Galaxy", "label": "Guardians of the Galaxy", "shape": "diamond", "size": 5, "title": "Team: Guardians of the Galaxy\u003c/br\u003eNo. of shared characters: 5"}, {"Name": "Guardians of the Multiverse", "color": "#F18FB0", "id": "Guardians of the Multiverse", "label": "Guardians of the Multiverse", "shape": "diamond", "size": 7, "title": "Team: Guardians of the Multiverse\u003c/br\u003eNo. of shared characters: 7"}, {"color": "purple", "id": "Loki Variant Army", "label": "Loki Variant Army", "shape": "diamond", "size": 1, "title": "Team: Loki Variant Army\u003c/br\u003eNo. of shared characters: 1"}, {"Name": "Revengers", "color": "#2C841F", "id": "Revengers", "label": "Revengers", "shape": "diamond", "size": 6, "title": "Team: Revengers\u003c/br\u003eNo. of shared characters: 6"}, {"color": "purple", "id": "Sakaaran Rebellion", "label": "Sakaaran Rebellion", "shape": "diamond", "size": 2, "title": "Team: Sakaaran Rebellion\u003c/br\u003eNo. of shared characters: 2"}, {"Name": "Black Widows", "color": "#C2E1F7", "id": "Black Widows", "label": "Black Widows", "shape": "diamond", "size": 2, "title": "Team: Black Widows\u003c/br\u003eNo. of shared characters: 2"}, {"Name": "Dora Milaje", "color": "#DE7B7B", "id": "Dora Milaje", "label": "Dora Milaje", "shape": "diamond", "size": 2, "title": "Team: Dora Milaje\u003c/br\u003eNo. of shared characters: 2"}, {"Name": "Howling Commandos", "color": "#7903D5", "id": "Howling Commandos", "label": "Howling Commandos", "shape": "diamond", "size": 4, "title": "Team: Howling Commandos\u003c/br\u003eNo. of shared characters: 4"}, {"color": "purple", "id": "Sparrows", "label": "Sparrows", "shape": "diamond", "size": 1, "title": "Team: Sparrows\u003c/br\u003eNo. of shared characters: 1"}, {"color": "purple", "id": "STRIKE", "label": "STRIKE", "shape": "diamond", "size": 8, "title": "Team: STRIKE\u003c/br\u003eNo. of shared characters: 8"}, {"color": "purple", "id": "Zombie Outbreak Survivor Group", "label": "Zombie Outbreak Survivor Group", "shape": "diamond", "size": 2, "title": "Team: Zombie Outbreak Survivor Group\u003c/br\u003eNo. of shared characters: 2"}, {"Name": "Coulson\u0027s Team", "color": "#0F9848", "id": "Coulson\u0027s Team", "label": "Coulson\u0027s Team", "shape": "diamond", "size": 5, "title": "Team: Coulson\u0027s Team\u003c/br\u003eNo. of shared characters: 5"}, {"color": "purple", "id": "Garrett\u0027s Team", "label": "Garrett\u0027s Team", "shape": "diamond", "size": 2, "title": "Team: Garrett\u0027s Team\u003c/br\u003eNo. of shared characters: 2"}, {"color": "purple", "id": "Izel\u0027s Crew", "label": "Izel\u0027s Crew", "shape": "diamond", "size": 1, "title": "Team: Izel\u0027s Crew\u003c/br\u003eNo. of shared characters: 1"}, {"Name": "May\u0027s Team", "color": "#3EDAE4", "id": "May\u0027s Team", "label": "May\u0027s Team", "shape": "diamond", "size": 2, "title": "Team: May\u0027s Team\u003c/br\u003eNo. of shared characters: 2"}, {"Name": "Secret Warriors", "color": "#92B368", "id": "Secret Warriors", "label": "Secret Warriors", "shape": "diamond", "size": 3, "title": "Team: Secret Warriors\u003c/br\u003eNo. of shared characters: 3"}, {"Name": "Coven", "color": "#48993F", "id": "Coven", "label": "Coven", "shape": "diamond", "size": 1, "title": "Team: Coven\u003c/br\u003eNo. of shared characters: 1"}, {"color": "purple", "id": "Runaways", "label": "Runaways", "shape": "diamond", "size": 1, "title": "Team: Runaways\u003c/br\u003eNo. of shared characters: 1"}, {"Name": "Deathlok Soldiers", "color": "#963A24", "id": "Deathlok Soldiers", "label": "Deathlok Soldiers", "shape": "diamond", "size": 1, "title": "Team: Deathlok Soldiers\u003c/br\u003eNo. of shared characters: 1"}, {"Name": "Defenders", "color": "#9CB4A2", "id": "Defenders", "label": "Defenders", "shape": "diamond", "size": 1, "title": "Team: Defenders\u003c/br\u003eNo. of shared characters: 1"}, {"color": "purple", "id": "The Bombers", "label": "The Bombers", "shape": "diamond", "size": 1, "title": "Team: The Bombers\u003c/br\u003eNo. of shared characters: 1"}, {"Name": "Deke Squad", "color": "#11C20E", "id": "Deke Squad", "label": "Deke Squad", "shape": "diamond", "size": 2, "title": "Team: Deke Squad\u003c/br\u003eNo. of shared characters: 2"}, {"color": "purple", "id": "Stakar Ogord\u0027s Team", "label": "Stakar Ogord\u0027s Team", "shape": "diamond", "size": 1, "title": "Team: Stakar Ogord\u0027s Team\u003c/br\u003eNo. of shared characters: 1"}, {"color": "purple", "id": "United States Navy SEALs", "label": "United States Navy SEALs", "shape": "diamond", "size": 1, "title": "Team: United States Navy SEALs\u003c/br\u003eNo. of shared characters: 1"}, {"color": "purple", "id": "Invaders", "label": "Invaders", "shape": "diamond", "size": 1, "title": "Team: Invaders\u003c/br\u003eNo. of shared characters: 1"}, {"color": "purple", "id": "Valkyries", "label": "Valkyries", "shape": "diamond", "size": 1, "title": "Team: Valkyries\u003c/br\u003eNo. of shared characters: 1"}]);
+        edges = new vis.DataSet([{"from": "Asgardian Royal Family", "title": "No. of shared characters:1", "to": "Avengers", "value": 1, "weight": 1}, {"from": "Asgardian Royal Family", "title": "No. of shared characters:1", "to": "Guardians of the Galaxy", "value": 1, "weight": 1}, {"from": "Asgardian Royal Family", "title": "No. of shared characters:1", "to": "Guardians of the Multiverse", "value": 1, "weight": 1}, {"from": "Asgardian Royal Family", "title": "No. of shared characters:1", "to": "Loki Variant Army", "value": 1, "weight": 1}, {"from": "Asgardian Royal Family", "title": "No. of shared characters:3", "to": "Revengers", "value": 3, "weight": 1}, {"from": "Asgardian Royal Family", "title": "No. of shared characters:2", "to": "Sakaaran Rebellion", "value": 2, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:1", "to": "Black Widows", "value": 1, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:1", "to": "Dora Milaje", "value": 1, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:3", "to": "Guardians of the Galaxy", "value": 3, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:2", "to": "Guardians of the Multiverse", "value": 2, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:1", "to": "Howling Commandos", "value": 1, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:2", "to": "Revengers", "value": 2, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:1", "to": "Sparrows", "value": 1, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:3", "to": "STRIKE", "value": 3, "weight": 1}, {"from": "Avengers", "title": "No. of shared characters:2", "to": "Zombie Outbreak Survivor Group", "value": 2, "weight": 1}, {"from": "Black Widows", "title": "No. of shared characters:1", "to": "STRIKE", "value": 1, "weight": 1}, {"from": "Coulson\u0027s Team", "title": "No. of shared characters:2", "to": "Garrett\u0027s Team", "value": 2, "weight": 1}, {"from": "Coulson\u0027s Team", "title": "No. of shared characters:2", "to": "Izel\u0027s Crew", "value": 2, "weight": 1}, {"from": "Coulson\u0027s Team", "title": "No. of shared characters:2", "to": "May\u0027s Team", "value": 2, "weight": 1}, {"from": "Coulson\u0027s Team", "title": "No. of shared characters:2", "to": "Secret Warriors", "value": 2, "weight": 1}, {"from": "Coulson\u0027s Team", "title": "No. of shared characters:2", "to": "STRIKE", "value": 2, "weight": 1}, {"from": "Coven", "title": "No. of shared characters:1", "to": "Runaways", "value": 1, "weight": 1}, {"from": "Deathlok Soldiers", "title": "No. of shared characters:1", "to": "Garrett\u0027s Team", "value": 1, "weight": 1}, {"from": "Defenders", "title": "No. of shared characters:1", "to": "The Bombers", "value": 1, "weight": 1}, {"from": "Deke Squad", "title": "No. of shared characters:1", "to": "Secret Warriors", "value": 1, "weight": 1}, {"from": "Deke Squad", "title": "No. of shared characters:1", "to": "STRIKE", "value": 1, "weight": 1}, {"from": "Dora Milaje", "title": "No. of shared characters:1", "to": "Zombie Outbreak Survivor Group", "value": 1, "weight": 1}, {"from": "Guardians of the Galaxy", "title": "No. of shared characters:2", "to": "Guardians of the Multiverse", "value": 2, "weight": 1}, {"from": "Guardians of the Galaxy", "title": "No. of shared characters:1", "to": "Revengers", "value": 1, "weight": 1}, {"from": "Guardians of the Galaxy", "title": "No. of shared characters:1", "to": "Stakar Ogord\u0027s Team", "value": 1, "weight": 1}, {"from": "Guardians of the Multiverse", "title": "No. of shared characters:1", "to": "Howling Commandos", "value": 1, "weight": 1}, {"from": "Guardians of the Multiverse", "title": "No. of shared characters:1", "to": "Revengers", "value": 1, "weight": 1}, {"from": "Guardians of the Multiverse", "title": "No. of shared characters:2", "to": "STRIKE", "value": 2, "weight": 1}, {"from": "Guardians of the Multiverse", "title": "No. of shared characters:1", "to": "United States Navy SEALs", "value": 1, "weight": 1}, {"from": "Howling Commandos", "title": "No. of shared characters:6", "to": "Invaders", "value": 6, "weight": 1}, {"from": "Howling Commandos", "title": "No. of shared characters:1", "to": "STRIKE", "value": 1, "weight": 1}, {"from": "May\u0027s Team", "title": "No. of shared characters:5", "to": "STRIKE", "value": 5, "weight": 1}, {"from": "Revengers", "title": "No. of shared characters:1", "to": "Sakaaran Rebellion", "value": 1, "weight": 1}, {"from": "Revengers", "title": "No. of shared characters:1", "to": "Valkyries", "value": 1, "weight": 1}, {"from": "Secret Warriors", "title": "No. of shared characters:1", "to": "STRIKE", "value": 1, "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 1,
+            "gravitationalConstant": -50,
+            "springConstant": 0.02,
+            "springLength": 50
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

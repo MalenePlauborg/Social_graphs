@@ -1,0 +1,117 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1>Marvel Cinematic Universe Movie Overview With Main Characters</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 90%;
+            height: 750px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"Phase": "character", "color": "skyblue", "id": "Iron Man", "label": "Iron Man", "name": "Iron Man", "shape": "dot", "size": 12, "title": "Iron Man Neighbors:\u003cbr\u003eIron Man 2\u003cbr\u003eThe Avengers\u003cbr\u003eIron Man 3\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eSpider-Man: Homecoming\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eIron Man (film)", "value": 9}, {"color": "lightpink", "id": "Avengers: Age of Ultron", "label": "Avengers: Age of Ultron", "shape": "box", "size": 12, "title": "Avengers: Age of Ultron Neighbors:\u003cbr\u003eThor\u003cbr\u003eBlack Widow\u003cbr\u003eHulk\u003cbr\u003eCaptain America\u003cbr\u003eHawkeye\u003cbr\u003eSteve Rogers\u003cbr\u003eIron Man\u003cbr\u003eVision\u003cbr\u003eScarlet Witch", "value": 9}, {"color": "orange", "id": "Avengers: Endgame", "label": "Avengers: Endgame", "shape": "box", "size": 12, "title": "Avengers: Endgame Neighbors:\u003cbr\u003eDoctor Strange\u003cbr\u003eThor\u003cbr\u003eBlack Widow\u003cbr\u003eHulk\u003cbr\u003eCaptain America\u003cbr\u003eHawkeye\u003cbr\u003eBlack Panther\u003cbr\u003eSteve Rogers\u003cbr\u003eSpider-Man\u003cbr\u003eIron Man\u003cbr\u003eStar-Lord\u003cbr\u003eWinter Soldier\u003cbr\u003eCaptain Marvel\u003cbr\u003eScarlet Witch", "value": 14}, {"color": "orange", "id": "Avengers: Infinity War", "label": "Avengers: Infinity War", "shape": "box", "size": 12, "title": "Avengers: Infinity War Neighbors:\u003cbr\u003eDoctor Strange\u003cbr\u003eThor\u003cbr\u003eBlack Widow\u003cbr\u003eHulk\u003cbr\u003eCaptain America\u003cbr\u003eBlack Panther\u003cbr\u003eSteve Rogers\u003cbr\u003eSpider-Man\u003cbr\u003eIron Man\u003cbr\u003eStar-Lord\u003cbr\u003eLoki\u003cbr\u003eWinter Soldier\u003cbr\u003eVision\u003cbr\u003eScarlet Witch", "value": 14}, {"color": "orange", "id": "Captain America: Civil War", "label": "Captain America: Civil War", "shape": "box", "size": 12, "title": "Captain America: Civil War Neighbors:\u003cbr\u003eBlack Widow\u003cbr\u003eCaptain America\u003cbr\u003eHawkeye\u003cbr\u003eBlack Panther\u003cbr\u003eSteve Rogers\u003cbr\u003eSpider-Man\u003cbr\u003eIron Man\u003cbr\u003eWinter Soldier\u003cbr\u003eVision\u003cbr\u003eScarlet Witch", "value": 10}, {"color": "magenta", "id": "Iron Man (film)", "label": "Iron Man (film)", "shape": "box", "size": 12, "title": "Iron Man (film) Neighbors:\u003cbr\u003ePhil Coulson\u003cbr\u003eIron Man", "value": 2}, {"color": "magenta", "id": "Iron Man 2", "label": "Iron Man 2", "shape": "box", "size": 12, "title": "Iron Man 2 Neighbors:\u003cbr\u003eSpider-Man\u003cbr\u003eBlack Widow\u003cbr\u003ePhil Coulson\u003cbr\u003eIron Man", "value": 4}, {"color": "lightpink", "id": "Iron Man 3", "label": "Iron Man 3", "shape": "box", "size": 12, "title": "Iron Man 3 Neighbors:\u003cbr\u003eThor\u003cbr\u003eIron Man", "value": 2}, {"color": "orange", "id": "Spider-Man: Homecoming", "label": "Spider-Man: Homecoming", "shape": "box", "size": 12, "title": "Spider-Man: Homecoming Neighbors:\u003cbr\u003eSpider-Man\u003cbr\u003eIron Man", "value": 2}, {"color": "magenta", "id": "The Avengers", "label": "The Avengers", "shape": "box", "size": 12, "title": "The Avengers Neighbors:\u003cbr\u003eThor\u003cbr\u003eBlack Widow\u003cbr\u003eHulk\u003cbr\u003eHawkeye\u003cbr\u003eSteve Rogers\u003cbr\u003eLoki\u003cbr\u003eIron Man\u003cbr\u003ePhil Coulson", "value": 8}, {"Phase": "character", "color": "skyblue", "id": "Spider-Man", "label": "Spider-Man", "name": "Spider-Man", "shape": "dot", "size": 12, "title": "Spider-Man Neighbors:\u003cbr\u003eIron Man 2\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eSpider-Man: Homecoming\u003cbr\u003eSpider-Man: No Way Home\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eSpider-Man: Far From Home", "value": 7}, {"color": "orange", "id": "Spider-Man: Far From Home", "label": "Spider-Man: Far From Home", "shape": "box", "size": 12, "title": "Spider-Man: Far From Home Neighbors:\u003cbr\u003eSpider-Man", "value": 1}, {"color": "purple", "id": "Spider-Man: No Way Home", "label": "Spider-Man: No Way Home", "shape": "box", "size": 12, "title": "Spider-Man: No Way Home Neighbors:\u003cbr\u003eSpider-Man", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Thor", "label": "Thor", "name": "Thor", "shape": "dot", "size": 12, "title": "Thor Neighbors:\u003cbr\u003eThe Avengers\u003cbr\u003eIron Man 3\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eThor: Ragnarok\u003cbr\u003eBlack Widow (film)\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eThor (film)\u003cbr\u003eThor: The Dark World", "value": 9}, {"color": "purple", "id": "Black Widow (film)", "label": "Black Widow (film)", "shape": "box", "size": 12, "title": "Black Widow (film) Neighbors:\u003cbr\u003eThor\u003cbr\u003eBlack Widow", "value": 2}, {"color": "magenta", "id": "Thor (film)", "label": "Thor (film)", "shape": "box", "size": 12, "title": "Thor (film) Neighbors:\u003cbr\u003eHawkeye\u003cbr\u003eThor\u003cbr\u003eLoki\u003cbr\u003ePhil Coulson", "value": 4}, {"color": "orange", "id": "Thor: Ragnarok", "label": "Thor: Ragnarok", "shape": "box", "size": 12, "title": "Thor: Ragnarok Neighbors:\u003cbr\u003eDoctor Strange\u003cbr\u003eThor\u003cbr\u003eHulk\u003cbr\u003eLoki", "value": 4}, {"color": "lightpink", "id": "Thor: The Dark World", "label": "Thor: The Dark World", "shape": "box", "size": 12, "title": "Thor: The Dark World Neighbors:\u003cbr\u003eThor\u003cbr\u003eLoki", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Black Widow", "label": "Black Widow", "name": "Black Widow", "shape": "dot", "size": 12, "title": "Black Widow Neighbors:\u003cbr\u003eIron Man 2\u003cbr\u003eThe Avengers\u003cbr\u003eCaptain America: The Winter Soldier\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eBlack Widow (film)\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame", "value": 8}, {"color": "lightpink", "id": "Captain America: The Winter Soldier", "label": "Captain America: The Winter Soldier", "shape": "box", "size": 12, "title": "Captain America: The Winter Soldier Neighbors:\u003cbr\u003eWinter Soldier\u003cbr\u003eCaptain America\u003cbr\u003eBlack Widow\u003cbr\u003eSteve Rogers", "value": 4}, {"Phase": "character", "color": "skyblue", "id": "Captain America", "label": "Captain America", "name": "Captain America", "shape": "dot", "size": 12, "title": "Captain America Neighbors:\u003cbr\u003eCaptain America: The Winter Soldier\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eAnt-Man (film)", "value": 6}, {"color": "lightpink", "id": "Ant-Man (film)", "label": "Ant-Man (film)", "shape": "box", "size": 12, "title": "Ant-Man (film) Neighbors:\u003cbr\u003eCaptain America", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Captain Marvel", "label": "Captain Marvel", "name": "Captain Marvel", "shape": "dot", "size": 12, "title": "Captain Marvel Neighbors:\u003cbr\u003eAvengers: Endgame\u003cbr\u003eCaptain Marvel (film)", "value": 2}, {"color": "orange", "id": "Captain Marvel (film)", "label": "Captain Marvel (film)", "shape": "box", "size": 12, "title": "Captain Marvel (film) Neighbors:\u003cbr\u003ePhil Coulson\u003cbr\u003eCaptain Marvel", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Doctor Strange", "label": "Doctor Strange", "name": "Doctor Strange", "shape": "dot", "size": 12, "title": "Doctor Strange Neighbors:\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eThor: Ragnarok\u003cbr\u003eDoctor Strange (film)", "value": 4}, {"color": "orange", "id": "Doctor Strange (film)", "label": "Doctor Strange (film)", "shape": "box", "size": 12, "title": "Doctor Strange (film) Neighbors:\u003cbr\u003eDoctor Strange", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Hulk", "label": "Hulk", "name": "Hulk", "shape": "dot", "size": 12, "title": "Hulk Neighbors:\u003cbr\u003eThe Avengers\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eThor: Ragnarok\u003cbr\u003eThe Incredible Hulk\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame", "value": 6}, {"color": "magenta", "id": "The Incredible Hulk", "label": "The Incredible Hulk", "shape": "box", "size": 12, "title": "The Incredible Hulk Neighbors:\u003cbr\u003eHulk", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Shang-Chi", "label": "Shang-Chi", "name": "Shang-Chi", "shape": "dot", "size": 12, "title": "Shang-Chi Neighbors:\u003cbr\u003eShang-Chi and the Legend of the Ten Rings", "value": 1}, {"color": "purple", "id": "Shang-Chi and the Legend of the Ten Rings", "label": "Shang-Chi and the Legend of the Ten Rings", "shape": "box", "size": 12, "title": "Shang-Chi and the Legend of the Ten Rings Neighbors:\u003cbr\u003eShang-Chi", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Star-Lord", "label": "Star-Lord", "name": "Star-Lord", "shape": "dot", "size": 12, "title": "Star-Lord Neighbors:\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eGuardians of the Galaxy Vol. 2\u003cbr\u003eGuardians of the Galaxy (film)", "value": 4}, {"color": "lightpink", "id": "Guardians of the Galaxy (film)", "label": "Guardians of the Galaxy (film)", "shape": "box", "size": 12, "title": "Guardians of the Galaxy (film) Neighbors:\u003cbr\u003eStar-Lord", "value": 1}, {"color": "orange", "id": "Guardians of the Galaxy Vol. 2", "label": "Guardians of the Galaxy Vol. 2", "shape": "box", "size": 12, "title": "Guardians of the Galaxy Vol. 2 Neighbors:\u003cbr\u003eStar-Lord", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Hawkeye", "label": "Hawkeye", "name": "Hawkeye", "shape": "dot", "size": 12, "title": "Hawkeye Neighbors:\u003cbr\u003eThe Avengers\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eThor (film)", "value": 5}, {"Phase": "character", "color": "skyblue", "id": "Black Panther", "label": "Black Panther", "name": "Black Panther", "shape": "dot", "size": 12, "title": "Black Panther Neighbors:\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eBlack Panther (film)", "value": 4}, {"color": "orange", "id": "Black Panther (film)", "label": "Black Panther (film)", "shape": "box", "size": 12, "title": "Black Panther (film) Neighbors:\u003cbr\u003eWinter Soldier\u003cbr\u003eBlack Panther", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Steve Rogers", "label": "Steve Rogers", "name": "Steve Rogers", "shape": "dot", "size": 12, "title": "Steve Rogers Neighbors:\u003cbr\u003eCaptain America: The First Avenger\u003cbr\u003eThe Avengers\u003cbr\u003eCaptain America: The Winter Soldier\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eAvengers: Age of Ultron\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame", "value": 7}, {"color": "magenta", "id": "Captain America: The First Avenger", "label": "Captain America: The First Avenger", "shape": "box", "size": 12, "title": "Captain America: The First Avenger Neighbors:\u003cbr\u003eWinter Soldier\u003cbr\u003eSteve Rogers", "value": 2}, {"Phase": "character", "color": "skyblue", "id": "Thena", "label": "Thena", "name": "Thena", "shape": "dot", "size": 12, "title": "Thena Neighbors:\u003cbr\u003eEternals (film)", "value": 1}, {"color": "purple", "id": "Eternals (film)", "label": "Eternals (film)", "shape": "box", "size": 12, "title": "Eternals (film) Neighbors:\u003cbr\u003eThena", "value": 1}, {"Phase": "character", "color": "skyblue", "id": "Phil Coulson", "label": "Phil Coulson", "name": "Phil Coulson", "shape": "dot", "size": 12, "title": "Phil Coulson Neighbors:\u003cbr\u003eIron Man 2\u003cbr\u003eThe Avengers\u003cbr\u003eCaptain Marvel (film)\u003cbr\u003eThor (film)\u003cbr\u003eIron Man (film)", "value": 5}, {"Phase": "character", "color": "skyblue", "id": "Loki", "label": "Loki", "name": "Loki", "shape": "dot", "size": 12, "title": "Loki Neighbors:\u003cbr\u003eThe Avengers\u003cbr\u003eThor: Ragnarok\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eThor (film)\u003cbr\u003eThor: The Dark World", "value": 5}, {"Phase": "character", "color": "skyblue", "id": "Scarlet Witch", "label": "Scarlet Witch", "name": "Scarlet Witch", "shape": "dot", "size": 12, "title": "Scarlet Witch Neighbors:\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eAvengers: Age of Ultron", "value": 4}, {"Phase": "character", "color": "skyblue", "id": "Vision", "label": "Vision", "name": "Vision", "shape": "dot", "size": 12, "title": "Vision Neighbors:\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eAvengers: Age of Ultron", "value": 3}, {"Phase": "character", "color": "skyblue", "id": "Winter Soldier", "label": "Winter Soldier", "name": "Winter Soldier", "shape": "dot", "size": 12, "title": "Winter Soldier Neighbors:\u003cbr\u003eCaptain America: The First Avenger\u003cbr\u003eCaptain America: The Winter Soldier\u003cbr\u003eCaptain America: Civil War\u003cbr\u003eBlack Panther (film)\u003cbr\u003eAvengers: Infinity War\u003cbr\u003eAvengers: Endgame", "value": 6}]);
+        edges = new vis.DataSet([{"from": "Iron Man", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Iron Man", "to": "Avengers: Endgame", "weight": 1}, {"from": "Iron Man", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Iron Man", "to": "Captain America: Civil War", "weight": 1}, {"from": "Iron Man", "to": "Iron Man (film)", "weight": 1}, {"from": "Iron Man", "to": "Iron Man 2", "weight": 1}, {"from": "Iron Man", "to": "Iron Man 3", "weight": 1}, {"from": "Iron Man", "to": "Spider-Man: Homecoming", "weight": 1}, {"from": "Iron Man", "to": "The Avengers", "weight": 1}, {"from": "Spider-Man", "to": "Avengers: Endgame", "weight": 1}, {"from": "Spider-Man", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Spider-Man", "to": "Captain America: Civil War", "weight": 1}, {"from": "Spider-Man", "to": "Iron Man 2", "weight": 1}, {"from": "Spider-Man", "to": "Spider-Man: Far From Home", "weight": 1}, {"from": "Spider-Man", "to": "Spider-Man: Homecoming", "weight": 1}, {"from": "Spider-Man", "to": "Spider-Man: No Way Home", "weight": 1}, {"from": "Thor", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Thor", "to": "Avengers: Endgame", "weight": 1}, {"from": "Thor", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Thor", "to": "Black Widow (film)", "weight": 1}, {"from": "Thor", "to": "Iron Man 3", "weight": 1}, {"from": "Thor", "to": "The Avengers", "weight": 1}, {"from": "Thor", "to": "Thor (film)", "weight": 1}, {"from": "Thor", "to": "Thor: Ragnarok", "weight": 1}, {"from": "Thor", "to": "Thor: The Dark World", "weight": 1}, {"from": "Black Widow", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Black Widow", "to": "Avengers: Endgame", "weight": 1}, {"from": "Black Widow", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Black Widow", "to": "Black Widow (film)", "weight": 1}, {"from": "Black Widow", "to": "Captain America: Civil War", "weight": 1}, {"from": "Black Widow", "to": "Captain America: The Winter Soldier", "weight": 1}, {"from": "Black Widow", "to": "Iron Man 2", "weight": 1}, {"from": "Black Widow", "to": "The Avengers", "weight": 1}, {"from": "Captain America", "to": "Ant-Man (film)", "weight": 1}, {"from": "Captain America", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Captain America", "to": "Avengers: Endgame", "weight": 1}, {"from": "Captain America", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Captain America", "to": "Captain America: Civil War", "weight": 1}, {"from": "Captain America", "to": "Captain America: The Winter Soldier", "weight": 1}, {"from": "Captain Marvel", "to": "Avengers: Endgame", "weight": 1}, {"from": "Captain Marvel", "to": "Captain Marvel (film)", "weight": 1}, {"from": "Doctor Strange", "to": "Avengers: Endgame", "weight": 1}, {"from": "Doctor Strange", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Doctor Strange", "to": "Doctor Strange (film)", "weight": 1}, {"from": "Doctor Strange", "to": "Thor: Ragnarok", "weight": 1}, {"from": "Hulk", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Hulk", "to": "Avengers: Endgame", "weight": 1}, {"from": "Hulk", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Hulk", "to": "The Avengers", "weight": 1}, {"from": "Hulk", "to": "The Incredible Hulk", "weight": 1}, {"from": "Hulk", "to": "Thor: Ragnarok", "weight": 1}, {"from": "Shang-Chi", "to": "Shang-Chi and the Legend of the Ten Rings", "weight": 1}, {"from": "Star-Lord", "to": "Avengers: Endgame", "weight": 1}, {"from": "Star-Lord", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Star-Lord", "to": "Guardians of the Galaxy (film)", "weight": 1}, {"from": "Star-Lord", "to": "Guardians of the Galaxy Vol. 2", "weight": 1}, {"from": "Hawkeye", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Hawkeye", "to": "Avengers: Endgame", "weight": 1}, {"from": "Hawkeye", "to": "Captain America: Civil War", "weight": 1}, {"from": "Hawkeye", "to": "The Avengers", "weight": 1}, {"from": "Hawkeye", "to": "Thor (film)", "weight": 1}, {"from": "Black Panther", "to": "Avengers: Endgame", "weight": 1}, {"from": "Black Panther", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Black Panther", "to": "Black Panther (film)", "weight": 1}, {"from": "Black Panther", "to": "Captain America: Civil War", "weight": 1}, {"from": "Steve Rogers", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Steve Rogers", "to": "Avengers: Endgame", "weight": 1}, {"from": "Steve Rogers", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Steve Rogers", "to": "Captain America: Civil War", "weight": 1}, {"from": "Steve Rogers", "to": "Captain America: The First Avenger", "weight": 1}, {"from": "Steve Rogers", "to": "Captain America: The Winter Soldier", "weight": 1}, {"from": "Steve Rogers", "to": "The Avengers", "weight": 1}, {"from": "Thena", "to": "Eternals (film)", "weight": 1}, {"from": "Phil Coulson", "to": "Captain Marvel (film)", "weight": 1}, {"from": "Phil Coulson", "to": "Iron Man (film)", "weight": 1}, {"from": "Phil Coulson", "to": "Iron Man 2", "weight": 1}, {"from": "Phil Coulson", "to": "The Avengers", "weight": 1}, {"from": "Phil Coulson", "to": "Thor (film)", "weight": 1}, {"from": "Loki", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Loki", "to": "The Avengers", "weight": 1}, {"from": "Loki", "to": "Thor (film)", "weight": 1}, {"from": "Loki", "to": "Thor: Ragnarok", "weight": 1}, {"from": "Loki", "to": "Thor: The Dark World", "weight": 1}, {"from": "Scarlet Witch", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Scarlet Witch", "to": "Avengers: Endgame", "weight": 1}, {"from": "Scarlet Witch", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Scarlet Witch", "to": "Captain America: Civil War", "weight": 1}, {"from": "Vision", "to": "Avengers: Age of Ultron", "weight": 1}, {"from": "Vision", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Vision", "to": "Captain America: Civil War", "weight": 1}, {"from": "Winter Soldier", "to": "Avengers: Endgame", "weight": 1}, {"from": "Winter Soldier", "to": "Avengers: Infinity War", "weight": 1}, {"from": "Winter Soldier", "to": "Black Panther (film)", "weight": 1}, {"from": "Winter Soldier", "to": "Captain America: Civil War", "weight": 1}, {"from": "Winter Soldier", "to": "Captain America: The First Avenger", "weight": 1}, {"from": "Winter Soldier", "to": "Captain America: The Winter Soldier", "weight": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "forceAtlas2Based": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.01,
+            "damping": 1,
+            "gravitationalConstant": -50,
+            "springConstant": 0.02,
+            "springLength": 50
+        },
+        "solver": "forceAtlas2Based",
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
